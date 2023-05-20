@@ -2,6 +2,8 @@ import React from "react";
 import { useEffect, useState } from "react";
 import { fetchAutoComp } from "../utils/fetchAutoComp";
 
+import WeatherBox from "./WeatherBox";
+
 const SearchBar = () => {
   const [search, setSearch] = useState("");
   const [suggested, setSuggested] = useState([]);
@@ -53,9 +55,14 @@ const SearchBar = () => {
 
   const test = () => {
     console.log(submitted);
+    console.log(
+      submitted.map((city) => {
+        city;
+      })
+    );
   };
 
-  const zz = suggested.map((city) => (
+  const suggestions = suggested.map((city) => (
     <div key={city.id}>
       <button
         onClick={() =>
@@ -67,6 +74,12 @@ const SearchBar = () => {
     </div>
   ));
 
+  const results = submitted.map((city, index) => (
+    <>
+      <WeatherBox cityName={city} key={index} />
+    </>
+  ));
+
   return (
     <div>
       <form>
@@ -75,7 +88,8 @@ const SearchBar = () => {
         <button onClick={onSubmit}>Submit</button>
       </form>
       <button onClick={test}>aaaa</button>
-      {zz}
+      {suggestions}
+      <div>{results}</div>
     </div>
   );
 };
