@@ -2,6 +2,7 @@ import React from "react";
 import { useState, useEffect } from "react";
 
 import { fetchWeather } from "../utils/fetchWeather";
+import ForecastBox from "./ForecastBox";
 
 const WeatherBox = ({ cityName }) => {
   const [weather, setWeather] = useState({});
@@ -56,6 +57,7 @@ const WeatherBox = ({ cityName }) => {
             </div>
           )}
           <button onClick={switchTempUnits}>O</button>
+          <ForecastBox city={cityName} />
         </div>
       ) : null}
     </div>
