@@ -30,19 +30,29 @@ const ForecastDisplay = ({ forecast }) => {
       </div>
       <Container
         sx={{
-          display: "flex",
-          width: "100%",
           overflow: "auto",
           border: "2px solid white",
           borderRadius: "15px",
+          padding: "10px",
           background: "#383838",
-          justifyContent: "flex-start",
-          alignItems: "center",
+          "@media (max-width: 600px)": {
+            width: "70vw",
+          },
         }}
       >
-        {day.hour.map((hour) => (
-          <IndividualForecast key={day.epoch} hour={hour} />
-        ))}
+        <Container
+          sx={{
+            display: "flex",
+            width: "100%",
+
+            justifyContent: "flex-start",
+            alignItems: "center",
+          }}
+        >
+          {day.hour.map((hour) => (
+            <IndividualForecast key={day.epoch} hour={hour} />
+          ))}
+        </Container>
       </Container>
     </Container>
   ));

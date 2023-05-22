@@ -17,6 +17,7 @@ export const fetchForecast = async (city) => {
   try {
     const response = await axios.request(options);
     data = response.data;
+    console.log(data);
   } catch (error) {
     console.error(error);
     return null;

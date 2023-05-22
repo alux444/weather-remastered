@@ -2,7 +2,7 @@ import React from "react";
 import { useEffect, useState } from "react";
 import { fetchAutoComp } from "../utils/fetchAutoComp";
 import WeatherBox from "./WeatherBox";
-import { TextField, Box } from "@mui/material";
+import { TextField, Box, Button } from "@mui/material";
 
 const SearchBar = () => {
   const [search, setSearch] = useState("");
@@ -10,6 +10,7 @@ const SearchBar = () => {
   const [loading, setLoading] = useState(true);
 
   const [submitted, setSubmitted] = useState([]);
+  const [searchHistory, setSearchHistory] = useState([]);
 
   useEffect(() => {
     setLoading(true);
@@ -30,7 +31,6 @@ const SearchBar = () => {
           setLoading(false);
         })
         .catch((error) => {
-          // Handle any errors that occur during the API request
           console.error("Error fetching autocomplete data:", error);
           setLoading(false);
         });
@@ -49,6 +49,10 @@ const SearchBar = () => {
     e.preventDefault();
     if (!submitted.includes(search.toLowerCase()) && search !== "") {
       setSubmitted((prevSubmitted) => [...prevSubmitted, search.toLowerCase()]);
+      setSearchHistory((prevSearchHistory) => [
+        ...prevSearchHistory,
+        search.toLowerCase(),
+      ]);
     }
     setSearch("");
   };
@@ -80,12 +84,25 @@ const SearchBar = () => {
     />
   ));
 
+  const history = searchHistory.slice(-5).map((previousSearch) => (
+    <Button
+      onClick={() => handleSuggestion(previousSearch)}
+      key={previousSearch}
+    >
+      {previousSearch}
+    </Button>
+  ));
+
   return (
     <div>
       <form>
         <TextField
           sx={{
-            width: "500px",
+            width: {
+              lg: 500,
+              md: 400,
+              sm: 300,
+            },
             "& .MuiFormLabel-root": {
               color: "orange",
             },
@@ -115,6 +132,19 @@ const SearchBar = () => {
         }}
       >
         {suggestions}
+      </Box>
+      <small>Your previous searches:</small>
+      <Box
+        sx={{
+          height: "min-content",
+          padding: "10px",
+          display: "flex",
+          flexWrap: "wrap",
+          justifyContent: "center",
+          gap: "10px",
+        }}
+      >
+        {history}
       </Box>
       <Box
         sx={{

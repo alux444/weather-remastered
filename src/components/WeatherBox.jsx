@@ -2,8 +2,8 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { fetchWeather } from "../utils/fetchWeather";
 import ForecastBox from "./ForecastBox";
-
 import { Box, Button } from "@mui/material";
+import styled from "@emotion/styled";
 
 const WeatherBox = ({ cityName, closeWeatherBox }) => {
   const [weather, setWeather] = useState({});
@@ -38,10 +38,6 @@ const WeatherBox = ({ cityName, closeWeatherBox }) => {
     });
   }, []);
 
-  const switchTempUnits = () => {
-    setTempUnits(!tempUnits);
-  };
-
   const handleShow = () => {
     setShowResults(!showResults);
   };
@@ -49,10 +45,14 @@ const WeatherBox = ({ cityName, closeWeatherBox }) => {
   return (
     <Box
       sx={{
-        width: "29vw",
+        width: {
+          sm: "90vw",
+          md: "45vw",
+          lg: "33vw",
+        },
         border: "2px solid white",
         borderRadius: "25px",
-        padding: "10px",
+        padding: "20px",
       }}
       className={`weather-box ${show ? "show" : ""}`}
     >
@@ -64,12 +64,23 @@ const WeatherBox = ({ cityName, closeWeatherBox }) => {
       ) : null}
       {loaded ? (
         showResults ? (
-          <Box>
+          <Box
+            sx={{
+              width: {
+                sm: "90vw",
+                md: "45vw",
+                lg: "33vw",
+              },
+            }}
+          >
             <h5>
               {weather.location.name} {weather.location.country}{" "}
               {weather.location.region}
             </h5>
-            <img src={weather.current.condition.icon} />
+            <img
+              src={weather.current.condition.icon}
+              className="weather-icon"
+            />
             <p>{weather.current.condition.text}</p>
             <div>
               <p>
@@ -80,15 +91,17 @@ const WeatherBox = ({ cityName, closeWeatherBox }) => {
                 Feels like : {weather.current.feelslike_c}°C (
                 {weather.current.feelslike_f}°F)
               </p>
+              <p>Humidity : {weather.current.humidity}%</p>
+              <p>
+                Wind : {weather.current.wind_kph}kmph (
+                {weather.current.wind_mph}mph)
+              </p>
             </div>
-            <button onClick={switchTempUnits}>O</button>
             <div>
-              <div>
-                <button onClick={handleShow}>See Forecast</button>
-              </div>
-              <div>
-                <small>Shows forecast for the next 3 days</small>
-              </div>
+              <button onClick={handleShow}>See Forecast</button>
+            </div>
+            <div>
+              <small>Shows forecast for the next 3 days</small>
             </div>
           </Box>
         ) : (
