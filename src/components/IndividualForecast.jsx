@@ -12,12 +12,12 @@ const IndividualForecast = ({ hour }) => {
       <small>{hour.condition.text}</small>
       <div>
         <small>
-          Temp:{hour.temp_c}°C ({hour.temp_f}°F)
+          Temp: {hour.temp_c}°C ({hour.temp_f}°F)
         </small>
       </div>
       <div>
         <small>
-          Feels like:{hour.feelslike_c}°C ({hour.feelslike_f}°F)
+          Feels like: {hour.feelslike_c}°C ({hour.feelslike_f}°F)
         </small>
       </div>
     </Box>

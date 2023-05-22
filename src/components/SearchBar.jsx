@@ -1,7 +1,6 @@
 import React from "react";
 import { useEffect, useState } from "react";
 import { fetchAutoComp } from "../utils/fetchAutoComp";
-
 import WeatherBox from "./WeatherBox";
 
 const SearchBar = () => {
@@ -53,15 +52,6 @@ const SearchBar = () => {
     setSearch("");
   };
 
-  const test = () => {
-    console.log(submitted);
-    console.log(
-      submitted.map((city) => {
-        city;
-      })
-    );
-  };
-
   const suggestions = suggested.map((city) => (
     <div key={city.id}>
       <button
@@ -74,9 +64,18 @@ const SearchBar = () => {
     </div>
   ));
 
+  const removeSearch = (toRemove) => {
+    const index = submitted.indexOf(toRemove);
+    if (index !== -1) {
+      const updatedSubmitted = [...submitted]; // Create a new array with the current state
+      updatedSubmitted.splice(index, 1); // Modify the new array
+      setSubmitted(updatedSubmitted);
+    }
+  };
+
   const results = submitted.map((city, index) => (
     <>
-      <WeatherBox cityName={city} key={index} />
+      <WeatherBox cityName={city} closeWeatherBox={removeSearch} key={index} />
     </>
   ));
 
@@ -87,7 +86,6 @@ const SearchBar = () => {
         <div>{!loading ? null : <small>Loading suggestions...</small>}</div>
         <button onClick={onSubmit}>Submit</button>
       </form>
-      <button onClick={test}>aaaa</button>
       {suggestions}
       <div>{results}</div>
     </div>
