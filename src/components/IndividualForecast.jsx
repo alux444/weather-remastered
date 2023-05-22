@@ -1,6 +1,5 @@
 import React from "react";
 import { Box } from "@mui/material";
-import { useEffect } from "react";
 
 const IndividualForecast = ({ hour }) => {
   return (
