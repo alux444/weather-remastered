@@ -1,46 +1,63 @@
 import React from "react";
-import { Container, Box } from "@mui/material";
+import { useState } from "react";
+import { Container, Button } from "@mui/material";
+import IndividualForecast from "./IndividualForecast";
 
 const ForecastDisplay = ({ forecast }) => {
-  const forecasts = forecast.forecast.forecastday.map((day) => (
-    <div key={day.epoch}>
-      <p>{day.date}</p>
-      {day.hour.map((hour) => (
-        <Box key={day.date_epoch} sx={{ display: "flex" }}>
-          <p>{hour.time.split(" ")[1]}</p>
-          <div>
-            <img src={hour.condition.icon} />
-          </div>
-          <div>{hour.condition.text}</div>
-          <div>
-            <small>
-              Temp:{hour.temp_c}°C ({hour.temp_f}°F)
-            </small>
-          </div>
-          <div>
-            <small>
-              Feels like:{hour.feelslike_c}°C ({hour.feelslike_f}°F)
-            </small>
-          </div>
-        </Box>
-      ))}
-    </div>
+  const [activeDayIndex, setActiveDayIndex] = useState(0);
+
+  const handleNextDay = () => {
+    if (activeDayIndex < 2) {
+      setActiveDayIndex(activeDayIndex + 1);
+    }
+  };
+
+  const handlePrevDay = () => {
+    if (activeDayIndex > 0) {
+      setActiveDayIndex(activeDayIndex - 1);
+    }
+  };
+
+  const forecasts = forecast.forecast.forecastday.map((day, index) => (
+    <Container
+      key={day.epoch}
+      sx={{
+        display: activeDayIndex === index ? "relative" : "none",
+      }}
+    >
+      <div>
+        <p>{day.date}</p>
+      </div>
+      <Container
+        sx={{
+          display: "flex",
+          width: "100%",
+          overflow: "auto",
+          border: "2px solid white",
+          borderRadius: "15px",
+          background: "#383838",
+        }}
+      >
+        {day.hour.map((hour) => (
+          <IndividualForecast key={day.epoch} hour={hour} />
+        ))}
+      </Container>
+    </Container>
   ));
 
   return (
-    <Container maxWidth="500px">
+    <Container maxWidth="550px">
       <div>
         <p>
           Forecast for: {forecast.location.name}, {forecast.location.country}{" "}
           {forecast.location.region}
         </p>
+        <Button onClick={handlePrevDay}>Previous Day</Button>
+        <Button onClick={handleNextDay}>Next Day</Button>
       </div>
-      <Container
-        maxWidth="500px"
-        sx={{ display: "flex", flexDirection: "row" }}
-      >
-        {forecasts}
-      </Container>
+      <small>(Scroll left and right)</small>
+
+      {forecasts}
     </Container>
   );
 };

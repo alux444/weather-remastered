@@ -4,6 +4,8 @@ import { useState, useEffect } from "react";
 import { fetchWeather } from "../utils/fetchWeather";
 import ForecastBox from "./ForecastBox";
 
+import { Box } from "@mui/material";
+
 const WeatherBox = ({ cityName }) => {
   const [weather, setWeather] = useState({});
   const [error, setError] = useState(false);
@@ -30,7 +32,15 @@ const WeatherBox = ({ cityName }) => {
   };
 
   return (
-    <div>
+    <Box
+      sx={{
+        width: "550px",
+        height: "fit-content",
+        border: "2px solid white",
+        borderRadius: "25px",
+        padding: "10px",
+      }}
+    >
       <button onClick={test}>test</button>
       {error ? (
         <div>
@@ -60,7 +70,7 @@ const WeatherBox = ({ cityName }) => {
           <ForecastBox city={cityName} />
         </div>
       ) : null}
-    </div>
+    </Box>
   );
 };
 

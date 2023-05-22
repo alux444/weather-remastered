@@ -30,11 +30,9 @@ const ForecastBox = (city) => {
   };
 
   return (
-    <div>
-      <p>Forecast</p>
+    <Box>
       {showResults ? (
         <Box>
-          <p>forecast</p>
           <button onClick={handleShow}>Hide Forecast</button>
           <ForecastDisplay forecast={forecast} />
         </Box>
@@ -48,7 +46,7 @@ const ForecastBox = (city) => {
           </div>
         </div>
       )}
-    </div>
+    </Box>
   );
 };
 
