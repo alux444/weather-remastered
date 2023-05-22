@@ -4,6 +4,8 @@ import { useState, useEffect } from "react";
 import { fetchForecast } from "../utils/fetchForecast";
 import ForecastDisplay from "./ForecastDisplay";
 
+import { Box } from "@mui/material";
+
 const ForecastBox = (city) => {
   const [forecast, setForecast] = useState([]);
   const [showResults, setShowResults] = useState(false);
@@ -31,11 +33,11 @@ const ForecastBox = (city) => {
     <div>
       <p>Forecast</p>
       {showResults ? (
-        <div>
+        <Box>
           <p>forecast</p>
           <button onClick={handleShow}>Hide Forecast</button>
           <ForecastDisplay forecast={forecast} />
-        </div>
+        </Box>
       ) : (
         <div>
           <div>
