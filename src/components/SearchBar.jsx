@@ -2,6 +2,7 @@ import React from "react";
 import { useEffect, useState } from "react";
 import { fetchAutoComp } from "../utils/fetchAutoComp";
 import WeatherBox from "./WeatherBox";
+import { TextField, Box } from "@mui/material";
 
 const SearchBar = () => {
   const [search, setSearch] = useState("");
@@ -55,6 +56,7 @@ const SearchBar = () => {
   const suggestions = suggested.map((city) => (
     <div key={city.id}>
       <button
+        style={{ flex: "0 0 25" }}
         onClick={() =>
           handleSuggestion(city.name + " " + city.country + " " + city.region)
         }
@@ -64,30 +66,66 @@ const SearchBar = () => {
     </div>
   ));
 
-  const removeSearch = (toRemove) => {
-    const index = submitted.indexOf(toRemove);
-    if (index !== -1) {
-      const updatedSubmitted = [...submitted]; // Create a new array with the current state
-      updatedSubmitted.splice(index, 1); // Modify the new array
-      setSubmitted(updatedSubmitted);
-    }
+  const removeSearch = (city) => {
+    setSubmitted((prevSubmitted) =>
+      prevSubmitted.filter((spec) => spec !== city)
+    );
   };
 
-  const results = submitted.map((city, index) => (
-    <>
-      <WeatherBox cityName={city} closeWeatherBox={removeSearch} key={index} />
-    </>
+  const results = submitted.map((city) => (
+    <WeatherBox
+      cityName={city}
+      closeWeatherBox={() => removeSearch(city)}
+      key={city}
+    />
   ));
 
   return (
     <div>
       <form>
-        <input type="text" value={search} onChange={handleChange} />
+        <TextField
+          sx={{
+            width: "500px",
+            "& .MuiFormLabel-root": {
+              color: "orange",
+            },
+            borderRadius: "15px",
+            margin: "15px",
+            input: { color: "white", textAlign: "center" },
+          }}
+          label="Enter your city!"
+          color="warning"
+          variant="filled"
+          size="large"
+          type="text"
+          value={search}
+          onChange={handleChange}
+        />
         <div>{!loading ? null : <small>Loading suggestions...</small>}</div>
         <button onClick={onSubmit}>Submit</button>
       </form>
-      {suggestions}
-      <div>{results}</div>
+      <Box
+        sx={{
+          height: "min-content",
+          padding: "10px",
+          display: "flex",
+          flexWrap: "wrap",
+          justifyContent: "center",
+          gap: "10px",
+        }}
+      >
+        {suggestions}
+      </Box>
+      <Box
+        sx={{
+          display: "flex",
+          flexWrap: "wrap",
+          gap: "15px",
+          justifyContent: "center",
+        }}
+      >
+        {results}
+      </Box>
     </div>
   );
 };

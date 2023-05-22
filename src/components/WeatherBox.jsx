@@ -11,6 +11,21 @@ const WeatherBox = ({ cityName, closeWeatherBox }) => {
   const [loaded, setLoaded] = useState(false);
   const [tempUnits, setTempUnits] = useState(true);
   const [showResults, setShowResults] = useState(true);
+  const [show, setShow] = useState(false);
+
+  useEffect(() => {
+    setShow(true);
+    return () => {
+      setShow(false);
+    };
+  }, []);
+
+  const handleClose = () => {
+    setShow(false);
+    setTimeout(() => {
+      closeWeatherBox(cityName);
+    }, 300);
+  };
 
   useEffect(() => {
     fetchWeather(cityName.toLowerCase()).then((data) => {
@@ -34,14 +49,14 @@ const WeatherBox = ({ cityName, closeWeatherBox }) => {
   return (
     <Box
       sx={{
-        width: "550px",
-        height: "fit-content",
+        width: "29vw",
         border: "2px solid white",
         borderRadius: "25px",
         padding: "10px",
       }}
+      className={`weather-box ${show ? "show" : ""}`}
     >
-      <Button onClick={() => closeWeatherBox(cityName)}>Close Search</Button>
+      <Button onClick={() => handleClose()}>Close Search</Button>
       {error ? (
         <div>
           <small>Sorry, the city you entered was invalid :(</small>
@@ -56,17 +71,16 @@ const WeatherBox = ({ cityName, closeWeatherBox }) => {
             </h5>
             <img src={weather.current.condition.icon} />
             <p>{weather.current.condition.text}</p>
-            {tempUnits ? (
-              <div>
-                <p>Temperature : {weather.current.temp_c}°C</p>
-                <p>Feels like : {weather.current.feelslike_c}°C</p>
-              </div>
-            ) : (
-              <div>
-                <p>Temperature : {weather.current.temp_f}°F</p>
-                <p>Feels like : {weather.current.feelslike_f}°F</p>
-              </div>
-            )}
+            <div>
+              <p>
+                Temperature : {weather.current.temp_c}°C (
+                {weather.current.temp_f}°F)
+              </p>
+              <p>
+                Feels like : {weather.current.feelslike_c}°C (
+                {weather.current.feelslike_f}°F)
+              </p>
+            </div>
             <button onClick={switchTempUnits}>O</button>
             <div>
               <div>

@@ -22,7 +22,7 @@ const ForecastDisplay = ({ forecast }) => {
     <Container
       key={day.epoch}
       sx={{
-        display: activeDayIndex === index ? "relative" : "none",
+        display: activeDayIndex === index ? "" : "none",
       }}
     >
       <div>
@@ -36,6 +36,8 @@ const ForecastDisplay = ({ forecast }) => {
           border: "2px solid white",
           borderRadius: "15px",
           background: "#383838",
+          justifyContent: "flex-start",
+          alignItems: "center",
         }}
       >
         {day.hour.map((hour) => (
@@ -46,7 +48,7 @@ const ForecastDisplay = ({ forecast }) => {
   ));
 
   return (
-    <Container maxWidth="550px">
+    <Container>
       <div>
         <p>
           Forecast for: {forecast.location.name}, {forecast.location.country}{" "}
