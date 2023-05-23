@@ -48,9 +48,16 @@ button {
 }
 button:hover {
   border-color: #fd903c;
-  background: rgba(223, 86, 28, 0.1);
 }
 button:focus,
 button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
+  outline: 4px auto #fd903c;
+}
+
+@media screen and (max-width: 600px) {
+  button {
+    padding: 0.6em 1.2em;
+    font-size: 0.8em;
+    font-weight: 300;
+  }
 }

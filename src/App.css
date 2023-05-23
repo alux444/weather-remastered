@@ -11,11 +11,12 @@
 .read-the-docs {
   color: #888;
 }
+
 .weather-box {
   opacity: 0;
   height: 0;
   overflow: hidden;
-  transition: opacity 1000ms, height 1000ms;
+  transition: opacity 500ms, height 500ms;
 }
 
 .weather-box.show {

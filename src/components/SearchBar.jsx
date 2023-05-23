@@ -45,7 +45,17 @@ const SearchBar = () => {
   };
 
   const handleSuggestion = (suggestion) => {
-    setSearch(suggestion);
+    if (!submitted.includes(suggestion.toLowerCase())) {
+      setSubmitted((prevSubmitted) => [
+        ...prevSubmitted,
+        suggestion.toLowerCase(),
+      ]);
+      setSearchHistory((prevSearchHistory) => [
+        ...prevSearchHistory,
+        suggestion.toLowerCase(),
+      ]);
+    }
+    setSearch("");
   };
 
   const onSubmit = (e) => {
@@ -93,11 +103,12 @@ const SearchBar = () => {
   };
 
   const results = submitted.map((city) => (
-    <WeatherBox
-      cityName={city}
-      closeWeatherBox={() => removeSearch(city)}
+    <Box
+      sx={{ "@media (max-width: 600px)": { marginBottom: "15px" } }}
       key={city}
-    />
+    >
+      <WeatherBox cityName={city} closeWeatherBox={() => removeSearch(city)} />
+    </Box>
   ));
 
   const history = searchHistory.slice(-5).map((previousSearch) => (
@@ -119,7 +130,6 @@ const SearchBar = () => {
             width: {
               lg: 500,
               md: 400,
-              sm: 300,
             },
             "& .MuiFormLabel-root": {
               color: "orange",
@@ -136,7 +146,14 @@ const SearchBar = () => {
           value={search}
           onChange={handleChange}
         />
-        <Box sx={{ display: "flex", gap: "15px", justifyContent: "center" }}>
+        <Box
+          sx={{
+            display: "flex",
+            gap: "15px",
+            justifyContent: "center",
+            marginBottom: "25px",
+          }}
+        >
           <button onClick={onSubmit}>Submit</button>
           <button onClick={handleVisibilitySuggestion}>
             {showSuggestions ? "Hide Suggestions" : "Show Suggestions"}
@@ -179,7 +196,7 @@ const SearchBar = () => {
       )}
       <Box
         sx={{
-          display: "flex",
+          display: { lg: "flex", sm: "" },
           flexWrap: "wrap",
           gap: "15px",
           justifyContent: "center",

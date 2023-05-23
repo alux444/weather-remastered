@@ -11,7 +11,6 @@ const WeatherBox = ({ cityName, closeWeatherBox }) => {
   const [loaded, setLoaded] = useState(false);
   const [showResults, setShowResults] = useState(true);
   const [show, setShow] = useState(false);
-  const [showSuggestions, setShowSuggestions] = useState(false);
 
   useEffect(() => {
     setShow(true);
@@ -21,10 +20,10 @@ const WeatherBox = ({ cityName, closeWeatherBox }) => {
   }, []);
 
   const handleClose = () => {
+    setShow(false);
     setTimeout(() => {
       closeWeatherBox(cityName);
-    }, 1000);
-    setShow(false);
+    }, 500);
   };
 
   useEffect(() => {
@@ -46,7 +45,6 @@ const WeatherBox = ({ cityName, closeWeatherBox }) => {
     <Box
       sx={{
         width: {
-          sm: "90vw",
           md: "45vw",
           lg: "33vw",
         },
@@ -69,10 +67,13 @@ const WeatherBox = ({ cityName, closeWeatherBox }) => {
           color="error"
           onClick={() => handleClose()}
           sx={{
-            position: "absolute",
-            top: "10px",
-            right: "10px",
-            height: "60px",
+            lg: {
+              position: "absolute",
+              top: "10px",
+              right: "10px",
+              height: "60px",
+            },
+            margin: "10px",
           }}
         >
           <CloseIcon />
@@ -88,7 +89,7 @@ const WeatherBox = ({ cityName, closeWeatherBox }) => {
           <Box
             sx={{
               width: {
-                sm: "90vw",
+                sm: "80vw",
                 md: "45vw",
                 lg: "33vw",
               },
