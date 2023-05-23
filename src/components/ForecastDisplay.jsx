@@ -34,9 +34,9 @@ const ForecastDisplay = ({ forecast }) => {
           border: "2px solid white",
           borderRadius: "15px",
           padding: "10px",
-          background: "#383838",
+          background: "rgba(0, 0, 0, 0.1)",
           "@media (max-width: 600px)": {
-            width: "70vw",
+            width: "65vw",
           },
         }}
       >
@@ -61,8 +61,7 @@ const ForecastDisplay = ({ forecast }) => {
     <Container>
       <div>
         <p>
-          Forecast for: {forecast.location.name}, {forecast.location.country}{" "}
-          {forecast.location.region}
+          Forecast for: {forecast.location.name}, {forecast.location.country}
         </p>
         <Button
           color="warning"
