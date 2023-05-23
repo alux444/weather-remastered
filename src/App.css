@@ -23,6 +23,15 @@
   height: auto;
 }
 
-.weather-box:hover {
-  border: "3px solid orange";
+.active {
+  text-decoration: underline;
+}
+
+.main-header {
+  font-size: 70px;
+  font-weight: 600;
+  background-image: linear-gradient(to left, #ff6200, #f3aa6b);
+  color: transparent;
+  background-clip: text;
+  -webkit-background-clip: text;
 }

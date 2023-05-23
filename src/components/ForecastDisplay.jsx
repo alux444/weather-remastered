@@ -64,8 +64,22 @@ const ForecastDisplay = ({ forecast }) => {
           Forecast for: {forecast.location.name}, {forecast.location.country}{" "}
           {forecast.location.region}
         </p>
-        <Button onClick={handlePrevDay}>Previous Day</Button>
-        <Button onClick={handleNextDay}>Next Day</Button>
+        <Button
+          color="warning"
+          variant="outlined"
+          onClick={handlePrevDay}
+          sx={{ margin: "10px" }}
+        >
+          Previous Day
+        </Button>
+        <Button
+          color="warning"
+          variant="outlined"
+          onClick={handleNextDay}
+          sx={{ margin: "10px" }}
+        >
+          Next Day
+        </Button>
       </div>
       <small>(Scroll left and right)</small>
 

@@ -1,19 +1,27 @@
 import React from "react";
-import { Link } from "react-router-dom";
-import { Box } from "@mui/material";
+import { Link, useLocation } from "react-router-dom";
 
 const NavBar = () => {
+  const location = useLocation();
+
+  const isActive = (pathname) => {
+    return location.pathname === pathname ? "active" : "";
+  };
+
   return (
     <div
       style={{
-        width: "600px",
         justifyContent: "center",
         display: "flex",
         gap: "40px",
       }}
     >
-      <Link to="/">Home</Link>
-      <Link to="/about">About</Link>
+      <Link to="/" className={isActive("/")}>
+        Home
+      </Link>
+      <Link to="/about" className={isActive("/about")}>
+        About
+      </Link>
     </div>
   );
 };

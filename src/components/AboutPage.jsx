@@ -24,6 +24,16 @@ const AboutPage = () => {
             here
           </a>
         </div>
+        <div>
+          The source code of this app can be found on{" "}
+          <a
+            href="https://github.com/alux444/weather-remastered"
+            target="_blank"
+            rel="noreferrer"
+          >
+            here
+          </a>
+        </div>
       </p>
     </div>
   );

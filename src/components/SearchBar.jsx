@@ -12,6 +12,9 @@ const SearchBar = () => {
   const [submitted, setSubmitted] = useState([]);
   const [searchHistory, setSearchHistory] = useState([]);
 
+  const [showSuggestions, setShowSuggestions] = useState(true);
+  const [showHistory, setShowHistory] = useState(false);
+
   useEffect(() => {
     setLoading(true);
     if (search.length > 0) {
@@ -59,14 +62,17 @@ const SearchBar = () => {
 
   const suggestions = suggested.map((city) => (
     <div key={city.id}>
-      <button
+      <Button
+        variant="outlined"
+        size="small"
+        color="warning"
         style={{ flex: "0 0 25" }}
         onClick={() =>
           handleSuggestion(city.name + " " + city.country + " " + city.region)
         }
       >
         {city.name}, {city.country}. {city.region}
-      </button>
+      </Button>
     </div>
   ));
 
@@ -74,6 +80,16 @@ const SearchBar = () => {
     setSubmitted((prevSubmitted) =>
       prevSubmitted.filter((spec) => spec !== city)
     );
+  };
+
+  const handleVisibilitySuggestion = (e) => {
+    e.preventDefault();
+    setShowSuggestions(!showSuggestions);
+  };
+
+  const handleVisibilityHistory = (e) => {
+    e.preventDefault();
+    setShowHistory(!showHistory);
   };
 
   const results = submitted.map((city) => (
@@ -86,6 +102,8 @@ const SearchBar = () => {
 
   const history = searchHistory.slice(-5).map((previousSearch) => (
     <Button
+      color="warning"
+      size="small"
       onClick={() => handleSuggestion(previousSearch)}
       key={previousSearch}
     >
@@ -118,34 +136,47 @@ const SearchBar = () => {
           value={search}
           onChange={handleChange}
         />
-        <div>{!loading ? null : <small>Loading suggestions...</small>}</div>
-        <button onClick={onSubmit}>Submit</button>
+        <Box sx={{ display: "flex", gap: "15px", justifyContent: "center" }}>
+          <button onClick={onSubmit}>Submit</button>
+          <button onClick={handleVisibilitySuggestion}>
+            {showSuggestions ? "Hide Suggestions" : "Show Suggestions"}
+          </button>
+          <button onClick={handleVisibilityHistory}>
+            {showHistory ? "Hide History" : "Show History"}
+          </button>
+        </Box>
       </form>
-      <Box
-        sx={{
-          height: "min-content",
-          padding: "10px",
-          display: "flex",
-          flexWrap: "wrap",
-          justifyContent: "center",
-          gap: "10px",
-        }}
-      >
-        {suggestions}
-      </Box>
-      <small>Your previous searches:</small>
-      <Box
-        sx={{
-          height: "min-content",
-          padding: "10px",
-          display: "flex",
-          flexWrap: "wrap",
-          justifyContent: "center",
-          gap: "10px",
-        }}
-      >
-        {history}
-      </Box>
+      {showSuggestions && (
+        <Box
+          sx={{
+            height: "min-content",
+            padding: "10px",
+            display: "flex",
+            flexWrap: "wrap",
+            justifyContent: "center",
+            gap: "10px",
+          }}
+        >
+          {suggestions}
+        </Box>
+      )}
+      {showHistory && (
+        <>
+          <small>Your previous searches:</small>
+          <Box
+            sx={{
+              height: "min-content",
+              padding: "10px",
+              display: "flex",
+              flexWrap: "wrap",
+              justifyContent: "center",
+              gap: "10px",
+            }}
+          >
+            {history}
+          </Box>
+        </>
+      )}
       <Box
         sx={{
           display: "flex",
