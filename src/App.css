@@ -15,10 +15,14 @@
   opacity: 0;
   height: 0;
   overflow: hidden;
-  transition: opacity 500ms, height 500ms;
+  transition: opacity 1000ms, height 1000ms;
 }
 
 .weather-box.show {
   opacity: 1;
   height: auto;
+}
+
+.weather-box:hover {
+  border: "3px solid orange";
 }

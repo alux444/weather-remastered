@@ -3,13 +3,11 @@ import { useState, useEffect } from "react";
 import { fetchWeather } from "../utils/fetchWeather";
 import ForecastBox from "./ForecastBox";
 import { Box, Button } from "@mui/material";
-import styled from "@emotion/styled";
 
 const WeatherBox = ({ cityName, closeWeatherBox }) => {
   const [weather, setWeather] = useState({});
   const [error, setError] = useState(false);
   const [loaded, setLoaded] = useState(false);
-  const [tempUnits, setTempUnits] = useState(true);
   const [showResults, setShowResults] = useState(true);
   const [show, setShow] = useState(false);
 
@@ -21,10 +19,10 @@ const WeatherBox = ({ cityName, closeWeatherBox }) => {
   }, []);
 
   const handleClose = () => {
-    setShow(false);
     setTimeout(() => {
       closeWeatherBox(cityName);
-    }, 300);
+    }, 1000);
+    setShow(false);
   };
 
   useEffect(() => {
@@ -53,10 +51,29 @@ const WeatherBox = ({ cityName, closeWeatherBox }) => {
         border: "2px solid white",
         borderRadius: "25px",
         padding: "20px",
+        transition: "border-color 0.5s, transform 0.5s",
+        "&:hover": {
+          border: "2px solid orange",
+          transform: "scale(1.03)",
+        },
       }}
       className={`weather-box ${show ? "show" : ""}`}
     >
-      <Button onClick={() => handleClose()}>Close Search</Button>
+      <Box sx={{ position: "relative" }}>
+        <Button
+          variant="outlined"
+          onClick={() => handleClose()}
+          sx={{
+            position: "absolute",
+            top: "10px",
+            right: "10px",
+            width: "30px",
+            height: "40px",
+          }}
+        >
+          X
+        </Button>
+      </Box>
       {error ? (
         <div>
           <small>Sorry, the city you entered was invalid :(</small>
@@ -73,10 +90,10 @@ const WeatherBox = ({ cityName, closeWeatherBox }) => {
               },
             }}
           >
-            <h5>
+            <h3>
               {weather.location.name} {weather.location.country}{" "}
               {weather.location.region}
-            </h5>
+            </h3>
             <img
               src={weather.current.condition.icon}
               className="weather-icon"

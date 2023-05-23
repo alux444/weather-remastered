@@ -22,18 +22,18 @@ const ForecastBox = ({ city, hideForecast }) => {
   }, []);
 
   return (
-    <>
-      {loaded ? (
-        <Box sx={{ width: "100%" }}>
-          <button onClick={hideForecast}>Hide Forecast</button>
-          <ForecastDisplay forecast={forecast} />
-        </Box>
-      ) : (
-        <div>
-          <small>Loading forecast info...</small>
-        </div>
-      )}
-    </>
+      <>
+        {loaded ? (
+          <Box sx={{ width: "100%" }}>
+            <button onClick={hideForecast}>Hide Forecast</button>
+            <ForecastDisplay forecast={forecast} />
+          </Box>
+        ) : (
+          <div>
+            <small>Loading forecast info...</small>
+          </div>
+        )}
+      </>
   );
 };
 
