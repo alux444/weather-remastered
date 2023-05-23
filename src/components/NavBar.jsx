@@ -1,17 +1,27 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 const NavBar = () => {
+  const location = useLocation();
+
+  const isActive = (pathname) => {
+    return location.pathname === pathname ? "active" : "";
+  };
+
   return (
-    <div>
-      <ul>
-        <li>
-          <Link to="/">Home</Link>
-        </li>
-        <li>
-          <Link to="/about">About</Link>
-        </li>
-      </ul>
+    <div
+      style={{
+        justifyContent: "center",
+        display: "flex",
+        gap: "40px",
+      }}
+    >
+      <Link to="/" className={isActive("/")}>
+        Home
+      </Link>
+      <Link to="/about" className={isActive("/about")}>
+        About
+      </Link>
     </div>
   );
 };

@@ -2,7 +2,7 @@ import React from "react";
 import { useEffect, useState } from "react";
 import { fetchAutoComp } from "../utils/fetchAutoComp";
 import WeatherBox from "./WeatherBox";
-import { TextField, Box } from "@mui/material";
+import { TextField, Box, Button } from "@mui/material";
 
 const SearchBar = () => {
   const [search, setSearch] = useState("");
@@ -10,6 +10,10 @@ const SearchBar = () => {
   const [loading, setLoading] = useState(true);
 
   const [submitted, setSubmitted] = useState([]);
+  const [searchHistory, setSearchHistory] = useState([]);
+
+  const [showSuggestions, setShowSuggestions] = useState(true);
+  const [showHistory, setShowHistory] = useState(false);
 
   useEffect(() => {
     setLoading(true);
@@ -30,7 +34,6 @@ const SearchBar = () => {
           setLoading(false);
         })
         .catch((error) => {
-          // Handle any errors that occur during the API request
           console.error("Error fetching autocomplete data:", error);
           setLoading(false);
         });
@@ -49,20 +52,27 @@ const SearchBar = () => {
     e.preventDefault();
     if (!submitted.includes(search.toLowerCase()) && search !== "") {
       setSubmitted((prevSubmitted) => [...prevSubmitted, search.toLowerCase()]);
+      setSearchHistory((prevSearchHistory) => [
+        ...prevSearchHistory,
+        search.toLowerCase(),
+      ]);
     }
     setSearch("");
   };
 
   const suggestions = suggested.map((city) => (
     <div key={city.id}>
-      <button
+      <Button
+        variant="outlined"
+        size="small"
+        color="warning"
         style={{ flex: "0 0 25" }}
         onClick={() =>
           handleSuggestion(city.name + " " + city.country + " " + city.region)
         }
       >
         {city.name}, {city.country}. {city.region}
-      </button>
+      </Button>
     </div>
   ));
 
@@ -70,6 +80,16 @@ const SearchBar = () => {
     setSubmitted((prevSubmitted) =>
       prevSubmitted.filter((spec) => spec !== city)
     );
+  };
+
+  const handleVisibilitySuggestion = (e) => {
+    e.preventDefault();
+    setShowSuggestions(!showSuggestions);
+  };
+
+  const handleVisibilityHistory = (e) => {
+    e.preventDefault();
+    setShowHistory(!showHistory);
   };
 
   const results = submitted.map((city) => (
@@ -80,12 +100,27 @@ const SearchBar = () => {
     />
   ));
 
+  const history = searchHistory.slice(-5).map((previousSearch) => (
+    <Button
+      color="warning"
+      size="small"
+      onClick={() => handleSuggestion(previousSearch)}
+      key={previousSearch}
+    >
+      {previousSearch}
+    </Button>
+  ));
+
   return (
     <div>
       <form>
         <TextField
           sx={{
-            width: "500px",
+            width: {
+              lg: 500,
+              md: 400,
+              sm: 300,
+            },
             "& .MuiFormLabel-root": {
               color: "orange",
             },
@@ -101,21 +136,47 @@ const SearchBar = () => {
           value={search}
           onChange={handleChange}
         />
-        <div>{!loading ? null : <small>Loading suggestions...</small>}</div>
-        <button onClick={onSubmit}>Submit</button>
+        <Box sx={{ display: "flex", gap: "15px", justifyContent: "center" }}>
+          <button onClick={onSubmit}>Submit</button>
+          <button onClick={handleVisibilitySuggestion}>
+            {showSuggestions ? "Hide Suggestions" : "Show Suggestions"}
+          </button>
+          <button onClick={handleVisibilityHistory}>
+            {showHistory ? "Hide History" : "Show History"}
+          </button>
+        </Box>
       </form>
-      <Box
-        sx={{
-          height: "min-content",
-          padding: "10px",
-          display: "flex",
-          flexWrap: "wrap",
-          justifyContent: "center",
-          gap: "10px",
-        }}
-      >
-        {suggestions}
-      </Box>
+      {showSuggestions && (
+        <Box
+          sx={{
+            height: "min-content",
+            padding: "10px",
+            display: "flex",
+            flexWrap: "wrap",
+            justifyContent: "center",
+            gap: "10px",
+          }}
+        >
+          {suggestions}
+        </Box>
+      )}
+      {showHistory && (
+        <>
+          <small>Your previous searches:</small>
+          <Box
+            sx={{
+              height: "min-content",
+              padding: "10px",
+              display: "flex",
+              flexWrap: "wrap",
+              justifyContent: "center",
+              gap: "10px",
+            }}
+          >
+            {history}
+          </Box>
+        </>
+      )}
       <Box
         sx={{
           display: "flex",

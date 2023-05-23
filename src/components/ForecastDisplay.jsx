@@ -30,19 +30,29 @@ const ForecastDisplay = ({ forecast }) => {
       </div>
       <Container
         sx={{
-          display: "flex",
-          width: "100%",
           overflow: "auto",
           border: "2px solid white",
           borderRadius: "15px",
+          padding: "10px",
           background: "#383838",
-          justifyContent: "flex-start",
-          alignItems: "center",
+          "@media (max-width: 600px)": {
+            width: "70vw",
+          },
         }}
       >
-        {day.hour.map((hour) => (
-          <IndividualForecast key={day.epoch} hour={hour} />
-        ))}
+        <Container
+          sx={{
+            display: "flex",
+            width: "100%",
+
+            justifyContent: "flex-start",
+            alignItems: "center",
+          }}
+        >
+          {day.hour.map((hour) => (
+            <IndividualForecast key={day.epoch} hour={hour} />
+          ))}
+        </Container>
       </Container>
     </Container>
   ));
@@ -54,8 +64,22 @@ const ForecastDisplay = ({ forecast }) => {
           Forecast for: {forecast.location.name}, {forecast.location.country}{" "}
           {forecast.location.region}
         </p>
-        <Button onClick={handlePrevDay}>Previous Day</Button>
-        <Button onClick={handleNextDay}>Next Day</Button>
+        <Button
+          color="warning"
+          variant="outlined"
+          onClick={handlePrevDay}
+          sx={{ margin: "10px" }}
+        >
+          Previous Day
+        </Button>
+        <Button
+          color="warning"
+          variant="outlined"
+          onClick={handleNextDay}
+          sx={{ margin: "10px" }}
+        >
+          Next Day
+        </Button>
       </div>
       <small>(Scroll left and right)</small>
 
